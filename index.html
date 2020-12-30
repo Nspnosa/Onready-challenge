@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body></body>
+  <script>
+    function separator() {
+      console.log('=============================');
+    }
+
+    class Vehicle {
+      constructor(marca, modelo, precio) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.precio = precio;
+      }
+      get precioLocal() {
+        return `$${this.precio.toLocaleString('es-AR', {
+          minimumFractionDigits: 2,
+        })}`;
+      }
+      get marcaModelo() {
+        return `${this.marca} ${this.modelo}`;
+      }
+    }
+
+    class Motorcycle extends Vehicle {
+      constructor(marca, modelo, precio, cilindrada) {
+        super(marca, modelo, precio);
+        this.cilindrada = cilindrada;
+      }
+      get info() {
+        return `Marca: ${this.marca} // Modelo: ${this.modelo} // Cilindrada: ${this.cilindrada}cc //Precio: ${this.precioLocal})}`;
+      }
+    }
+
+    class Car extends Vehicle {
+      constructor(marca, modelo, precio, puertas) {
+        super(marca, modelo, precio);
+        this.puertas = puertas;
+      }
+      get info() {
+        return `Marca: ${this.marca} // Modelo: ${this.modelo} // Puertas: ${this.puertas} // Precio: ${this.precioLocal}`;
+      }
+    }
+
+    let vehicle1 = new Car('Peugeout', '206', 200000, 4);
+    let vehicle3 = new Car('Peugeout', '208', 250000, 5);
+    let vehicle2 = new Motorcycle('Honda', 'Titan', 60000, 125);
+    let vehicle4 = new Motorcycle('Yamaha', 'YBR', 80500.5, 160);
+
+    let myVehicleArray = [vehicle1, vehicle2, vehicle3, vehicle4];
+
+    myVehicleArray.forEach((element) => console.log(element.info));
+    separator();
+    console.log(
+      `Vehículo más caro: ${
+        myVehicleArray.reduce((a, b) => (a.precio > b.precio ? a : b))
+          .marcaModelo
+      }`
+    );
+    console.log(
+      `Vehículo más barato: ${
+        myVehicleArray.reduce((a, b) => (a.precio < b.precio ? a : b))
+          .marcaModelo
+      }`
+    );
+    const letterToFind = 'Y';
+    const findResult = myVehicleArray.find((a) =>
+      a.modelo.toLocaleLowerCase().includes(letterToFind.toLocaleLowerCase())
+    );
+    console.log(
+      `Vehículo que contiene en el modelo la letra '${letterToFind}': ${findResult.marcaModelo} ${findResult.precioLocal}`
+    );
+    separator();
+    console.log('Vehículos ordenados por precio de mayor a menor:');
+    myVehicleArray
+      .sort((a, b) => b.precio - a.precio)
+      .forEach((element) => console.log(`${element.marcaModelo}`));
+  </script>
+</html>
